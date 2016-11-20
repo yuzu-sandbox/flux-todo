@@ -1,47 +1,43 @@
 import React from 'react'
-import {EventEmitter} from 'events'
+import TodoStore from './stores/todostore.js'
+import TodoAction from './actions/todoactions.js'
 import AddTodo from './addtodo.js'
 import TodoList from './todolist.js'
+
+function getTodo() {
+  return {
+    tasks: TodoStore.getAll()
+  }
+}
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      tasks: []
-    }
-    this.emitter = new EventEmitter()
+    this.state = getTodo()
+  }
+  
+  _onChange() {
+    this.setState(getTodo())
+  }
+  
+  _onCompleteDelete() {
+    
   }
   
   componentDidMount() {
-    this.emitter.on('add_todo', this.addTask.bind(this))
-    this.emitter.on('change_status', this.changeStatus.bind(this))
+    TodoStore.addChangeListener(this._onChange.bind(this))
   }
   
-  addTask(todo) {
-    console.log('add_todo', todo)
-    this.setState({
-      tasks: this.state.tasks.concat(todo)
-    })
-  }
-  
-  changeStatus(idx) {
-    console.log('change_status', idx)
-    const newTasks = this.state.tasks.map((t, i) => {
-      if(i === idx) {
-        t.toggleStatus()
-      }
-      return t
-    })
-    this.setState({
-      tasks: newTasks
-    })
+  componentWillUnmount() {
+    TodoStore.removeChangeListener(this._onChange.bind(this))
   }
   
   render() {
     return (
       <div>
-        <TodoList emitter={this.emitter} tasks={this.state.tasks}></TodoList>
-        <AddTodo emitter={this.emitter}></AddTodo>
+        <TodoList tasks={this.state.tasks}></TodoList>
+        <AddTodo />
+        <button onClick={() => TodoAction.destroyAll()}>Complete Delete</button>
       </div>
     )
   }

@@ -12,12 +12,13 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
     "events": "^1.1.1",
+    "flux": "^3.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "watchify": "^3.7.0"
   },
   "scripts": {
     "start": "browserify index.js -o bundle.js -t babelify",
-    "watch": "watchify index.js -o bundle.js -t babelify -v"
+    "watch": "watchify index.js -o bundle.js -t babelify -v --debug"
   }
 }

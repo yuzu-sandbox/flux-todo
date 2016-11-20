@@ -1,26 +1,24 @@
 import React from 'react'
 import Task from './model/todo.js'
+import TodoAction from './actions/todoactions.js'
 
 export default class AddTodo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      'todoTxtValue': ''
+      todoTxtValue: ''
     }
   }
 
   _onAdd() {
-    if (this.state.todoTxt !== '') {
-      const task = new Task(this.state.todoTxtValue)
-      this.props.emitter.emit('add_todo', task)
-      this.setState({
-        'todoTxtValue': ''
-      })
-    }
+    TodoAction.create(this.state.todoTxtValue)
+    this.setState({
+      todoTxtValue: ''
+    })
   }
   
   _onChange(e) {
-    this.setState({'todoTxtValue': e.target.value})
+    this.setState({todoTxtValue: e.target.value})
   }
   
   render() {

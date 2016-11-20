@@ -1,10 +1,15 @@
 export default class Todo {
-  constructor(txt) {
+  constructor(id, txt) {
+    this.id = id
     this.txt = txt
     this.status = false
   }
   
-  toggleStatus() {
-    this.status = !this.status
+  changeStatus(status) {
+    this.status = status
   }
 }
+
+const TODO_COMPLETE = true
+const TODO_NOT_COMPLETE = false
+export {TODO_COMPLETE, TODO_NOT_COMPLETE}

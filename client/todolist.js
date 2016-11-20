@@ -1,11 +1,13 @@
 import React from 'react'
+import TodoAction from './actions/todoactions.js'
 
 const TodoList = (props) => {
-  const tasks = props.tasks.map((t, i) => {
-    const txtDom = t.status ? (<s>{t.txt}</s>) : t.txt
+  const tasks = Object.keys(props.tasks).map((key) => {
+    const task = props.tasks[key]
+    const txtDom = task.status ? (<s>{task.txt}</s>) : task.txt
     return (
-      <li key={i} onClick={() => props.emitter.emit('change_status', i)}>
-        <input type="checkbox" checked={t.status}/>
+      <li key={key} onClick={() => TodoAction.toggleComplete(task)}>
+        <input type="checkbox" checked={task.status}/>
         {txtDom}
       </li>
     )
